@@ -6,7 +6,7 @@ function generateHomePageTemplate(asset) {
   let html = `<div class="home-currency">
                 <i class="cf cf-${asset.symbol.toLowerCase()}"></i>
                 <div>
-                    <h3>${asset.name}</h3>
+                    <h3>${asset.name}<sup>${asset.symbol}</sup></h3>
                     <p>$${parseFloat(asset.priceUsd).toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2
