@@ -5,7 +5,7 @@ function hamburgerMenu() {
   });
 }
 
-async function loadTemplate(path) {
+export async function loadTemplate(path) {
   const html = await fetch(path);
   const htmlString = await html.text();
   return htmlString;
@@ -14,22 +14,16 @@ async function loadTemplate(path) {
 export async function loadStaticTemplates() {
   const headerTemp = await loadTemplate("../partials/header.html");
   const navTemp = await loadTemplate("../partials/nav.html");
-  const searchBarTemp = await loadTemplate("../partials/search-bar.html");
   const footerTemp = await loadTemplate("../partials/footer.html");
 
-  const headerElem = document.querySelector("header");
-  const navElem = document.querySelector("nav");
-  const searchBarElem = document.querySelector(".searchbar");
-  const footerElem = document.querySelector("footer");
-
-  renderTemplate(headerTemp, headerElem);
-  renderTemplate(navTemp, navElem);
-  renderTemplate(searchBarTemp, searchBarElem);
-  renderTemplate(footerTemp, footerElem);
+  document.querySelector("header").innerHTML = headerTemp;
+  document.querySelector("nav").innerHTML = navTemp;
+  document.querySelector("footer").innerHTML = footerTemp;
 
   hamburgerMenu();
 }
 
-function renderTemplate(template, parentElement) {
-  parentElement.insertAdjacentHTML("afterbegin", template);
+export async function loadAndGetSearchBar() {
+  const searchBarTemp = await loadTemplate("../partials/search-bar.html");
+  document.querySelector(".searchbar").innerHTML = searchBarTemp;
 }

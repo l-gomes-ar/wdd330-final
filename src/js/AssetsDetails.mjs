@@ -1,7 +1,5 @@
 import RetrieveData from "./RetrieveData.mjs";
 
-//<i class="cf cf-usdc"></i>  <!-- Litecoin -->
-
 function generateHomePageTemplate(asset) {
   let html = `<div class="home-currency">
                 <i class="cf cf-${asset.symbol.toLowerCase()}"></i>
@@ -14,7 +12,7 @@ function generateHomePageTemplate(asset) {
   if (asset.changePercent24Hr[0] === "-") html += ` class="negative-change" `;
   html += `>${parseFloat(asset.changePercent24Hr).toFixed(2)}%</span></p>
         </div>
-        <a class="view-details-btn" href="#">View Details</a>
+        <a class="view-details-btn" href="#">View</a>
     </div>`;
 
   return html;
@@ -35,6 +33,12 @@ export default class AssetsDetails {
   renderHomePageAssets(assets, parentElem) {
     const topTen = assets.filter((asset) => parseInt(asset.rank) <= 10);
     let html = topTen.map(generateHomePageTemplate);
+    html = html.join("");
+    parentElem.innerHTML = html;
+  }
+
+  renderHomePageSearchResults(assets, parentElem) {
+    let html = assets.map(generateHomePageTemplate);
     html = html.join("");
     parentElem.innerHTML = html;
   }
