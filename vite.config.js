@@ -11,7 +11,7 @@ export default defineConfig({
         home: resolve(__dirname, "src/index.html"),
         details: resolve(__dirname, "src/details/index.html"),
         watchlist: resolve(__dirname, "src/watchlist/index.html")
-      },
-    },
-  },
+      }
+    }
+  }
 });
