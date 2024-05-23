@@ -10,6 +10,7 @@ function generateHomePageTemplate(asset) {
                       maximumFractionDigits: 2
                     })} <span`;
   if (asset.changePercent24Hr[0] === "-") html += ` class="negative-change" `;
+  else html += ` class="positive-change" `;
   html += `>${parseFloat(asset.changePercent24Hr).toFixed(2)}%</span></p>
         </div>
         <a class="view-details-btn" href="#">View</a>

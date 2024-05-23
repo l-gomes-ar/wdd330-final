@@ -141,8 +141,15 @@ main {
       font-weight: 700;
       padding: 0.1rem 0.3rem;
       border-radius: 10px;
+    }
+    
+    & span.positive-change {
       color: darkgreen;
       background-color: rgba(0, 255, 0, 0.3);
+    }
+
+    & span.positive-change::before {
+      content: "+";
     }
 
     & span.negative-change {
