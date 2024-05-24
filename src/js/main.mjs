@@ -8,4 +8,4 @@ search.init();
 
 const parentElem = document.querySelector("#home-currencies-container");
 const assets = new AssetsDetails(parentElem);
-assets.init(assets.renderHomePageAssets);
+assets.renderHomePageAssets();

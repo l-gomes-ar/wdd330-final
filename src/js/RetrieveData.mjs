@@ -14,7 +14,19 @@ export default class RetrieveData {
   constructor() {}
 
   async getAssets() {
-    const url = baseUrl + "assets";
+    const url = baseUrl + "assets/?limit=2000";
+    const data = await getData(url);
+    return data;
+  }
+
+  async getTop10Assets() {
+    const url = baseUrl + "assets/?limit=10";
+    const data = await getData(url);
+    return data;
+  }
+
+  async searchAssets(search) {
+    const url = baseUrl + "assets/?search=" + search;
     const data = await getData(url);
     return data;
   }

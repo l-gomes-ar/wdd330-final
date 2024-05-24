@@ -27,3 +27,31 @@ export async function loadAndGetSearchBar() {
   const searchBarTemp = await loadTemplate("../partials/search-bar.html");
   document.querySelector(".searchbar").innerHTML = searchBarTemp;
 }
+
+export function generateHomePageTemplate(asset) {
+  let html = `<div class="home-currency">
+                <i class="cf cf-${asset.symbol.toLowerCase()}"></i>
+                <div>
+                    <h3>${asset.name}<sup>${asset.symbol}</sup></h3>
+                    <p>$${parseFloat(asset.priceUsd).toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2
+                    })}`;
+  if (asset.changePercent24Hr) {
+    html +=  `<span`;
+    if (asset.changePercent24Hr[0] === "-") html += ` class="negative-change" `;
+    else html += ` class="positive-change" `;
+    html += `>${parseFloat(asset.changePercent24Hr).toFixed(2)}%</span>`
+  }
+  html += `</p>
+        </div>
+        <a class="view-details-btn" href="#">View</a>
+      </div>`;
+
+  return html;
+}
+
+export function renderFromTemplate(data, template, parentElem) {
+  parentElem
+    .innerHTML = data.map(template).join("");
+}
