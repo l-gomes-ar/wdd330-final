@@ -32,7 +32,6 @@ export default class RetrieveData {
     }
 
     const url = baseUrl + `assets/?limit=100&offset=${offset}`;
-    console.log(url);
     const data = await getData(url);
     return data;
   }

@@ -12,14 +12,14 @@ export default class AssetsDetails {
     renderFromTemplate(assets, generateCurrenciesContainerTemplate, this.parentElem);
   }
 
-  renderHomePageSearchResults(assets) {
+  renderSearchResultAssets(assets) {
     renderFromTemplate(assets, generateCurrenciesContainerTemplate, this.parentElem);
   }
   
-  async renderDetailsPageAssets(pageNumber) {
+  async renderAssetsList(pageNumber) {
     document
-      .querySelector("h2 span")
-      .textContent = `(Page ${pageNumber} of 23)`
+      .querySelector("h2")
+      .textContent = `Cryptocurrencies (Page ${pageNumber} of 23)`
     const assets = await retrieve.get100AssetsByPage(pageNumber);
     renderFromTemplate(assets, generateCurrenciesContainerTemplate, this.parentElem);
   }
