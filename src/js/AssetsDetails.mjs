@@ -17,6 +17,9 @@ export default class AssetsDetails {
   }
   
   async renderDetailsPageAssets(pageNumber) {
+    document
+      .querySelector("h2 span")
+      .textContent = `(Page ${pageNumber} of 23)`
     const assets = await retrieve.get100AssetsByPage(pageNumber);
     renderFromTemplate(assets, generateCurrenciesContainerTemplate, this.parentElem);
   }

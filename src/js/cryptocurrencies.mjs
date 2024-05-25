@@ -34,7 +34,7 @@ if (getParams("p") === null) {
     divElem.append(nextPageBtn);
     mainElem.append(divElem);
 } else {
-    let pageNumber = parseInt(getParams("page"));
+    let pageNumber = parseInt(getParams("p"));
     assets.renderDetailsPageAssets(pageNumber);
     previousPageBtn.href = `/cryptocurrencies/?p=${pageNumber - 1}`;
     nextPageBtn.href = `/cryptocurrencies/?p=${pageNumber + 1}`;
