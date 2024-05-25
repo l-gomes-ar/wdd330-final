@@ -24,6 +24,10 @@ export default class SearchBar {
     listenSearch() {
         document.querySelector("#search").addEventListener("keyup", (ev) => {
             if (ev.target.value !== "") {
+                // Hide home introduction message if necessary
+                if (document.querySelector("#home-intro"))
+                    document.querySelector("#home-intro").classList.add("hide");
+
                 // Remove pagination buttons if necessary
                 if (document.querySelector(".page-btns-container")) {
                     document.querySelector(".page-btns-container").innerHTML = "";
@@ -32,6 +36,7 @@ export default class SearchBar {
                 document.querySelector("h2").textContent = `Search Results: "${search}"`
                 this.renderSearchResults(search);
             } else if (window.location.pathname === "/") {
+                document.querySelector("#home-intro").classList.remove("hide");
                 document.querySelector("h2").textContent = "Top 10 Cryptocurrencies";
                 document
                     .querySelector("#currencies-container")

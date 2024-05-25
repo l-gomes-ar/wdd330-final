@@ -63,6 +63,10 @@
     grid-row: 2 / 3;
     min-height: 90vh;
 
+    & #home-intro {
+      font-size: 16pt;
+    }
+
 
     & #currencies-container {
       display: grid;
