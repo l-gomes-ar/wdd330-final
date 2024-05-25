@@ -6,6 +6,6 @@ loadStaticTemplates();
 const search = new SearchBar();
 search.init();
 
-const parentElem = document.querySelector("#home-currencies-container");
+const parentElem = document.querySelector("#currencies-container");
 const assets = new AssetsDetails(parentElem);
 assets.renderHomePageAssets();

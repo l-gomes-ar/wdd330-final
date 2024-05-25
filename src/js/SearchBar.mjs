@@ -18,7 +18,7 @@ export default class SearchBar {
         const results = await retrieveData.searchAssets(search);
 
         if (window.location.pathname === "/") {
-            new AssetsDetails(document.querySelector("#home-currencies-container"))
+            new AssetsDetails(document.querySelector("#currencies-container"))
                 .renderHomePageSearchResults(results);
         }
     }
@@ -32,8 +32,8 @@ export default class SearchBar {
             } else if (window.location.pathname === "/") {
                 document.querySelector("h2").textContent = "Top 10 Cryptocurrencies";
                 document
-                    .querySelector("#home-currencies-container")
-                    .innerHTML = new AssetsDetails(document.querySelector("#home-currencies-container")).renderHomePageAssets();
+                    .querySelector("#currencies-container")
+                    .innerHTML = new AssetsDetails(document.querySelector("#currencies-container")).renderHomePageAssets();
             }
         })
     }

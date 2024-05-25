@@ -28,7 +28,7 @@ export async function loadAndGetSearchBar() {
   document.querySelector(".searchbar").innerHTML = searchBarTemp;
 }
 
-export function generateHomePageTemplate(asset) {
+export function generateCurrenciesContainerTemplate(asset) {
   let html = `<div class="home-currency">
                 <i class="cf cf-${asset.symbol.toLowerCase()}"></i>
                 <div>

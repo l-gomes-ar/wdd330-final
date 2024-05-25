@@ -7,7 +7,7 @@ loadStaticTemplates();
 const search = new SearchBar();
 search.init();
 
-const parentElem = document.querySelector("#home-currencies-container");
+const parentElem = document.querySelector("#currencies-container");
 const assets = new AssetsDetails(parentElem);
 // assets.renderHomePageAssets();
 
@@ -28,16 +28,16 @@ const previousPageBtn = document.createElement("a");
 previousPageBtn.textContent = "Previous Page";
 previousPageBtn.setAttribute("class", "page-btn");
 
-if (getParams("page") === null) { // Add functionality for checking for single detail page VS all assets details
+if (getParams("p") === null) {
     assets.renderDetailsPageAssets(1);
-    nextPageBtn.href = "/details/?page=2";
+    nextPageBtn.href = "/cryptocurrencies/?p=2";
     divElem.append(nextPageBtn);
     mainElem.append(divElem);
 } else {
     let pageNumber = parseInt(getParams("page"));
     assets.renderDetailsPageAssets(pageNumber);
-    previousPageBtn.href = `/details/?page=${pageNumber - 1}`;
-    nextPageBtn.href = `/details/?page=${pageNumber + 1}`;
+    previousPageBtn.href = `/cryptocurrencies/?p=${pageNumber - 1}`;
+    nextPageBtn.href = `/cryptocurrencies/?p=${pageNumber + 1}`;
     if (pageNumber < 23) {
         divElem.append(previousPageBtn);
         divElem.append(nextPageBtn);

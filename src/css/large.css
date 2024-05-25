@@ -64,7 +64,7 @@
     min-height: 90vh;
 
 
-    & #home-currencies-container {
+    & #currencies-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, 200px);
 
