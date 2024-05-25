@@ -55,3 +55,11 @@ export function renderFromTemplate(data, template, parentElem) {
   parentElem
     .innerHTML = data.map(template).join("");
 }
+
+export function getParams(params) {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const productId = urlParams.get(params);
+  
+  return productId;
+}

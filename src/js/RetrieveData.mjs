@@ -25,6 +25,18 @@ export default class RetrieveData {
     return data;
   }
 
+  async get100AssetsByPage(pageNumber) {
+    let offset = 0;
+    for (let i = 1; i < pageNumber; i++) {
+      offset += 100;
+    }
+
+    const url = baseUrl + `assets/?limit=100&offset=${offset}`;
+    console.log(url);
+    const data = await getData(url);
+    return data;
+  }
+
   async searchAssets(search) {
     const url = baseUrl + "assets/?search=" + search;
     const data = await getData(url);

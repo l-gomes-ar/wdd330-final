@@ -15,4 +15,9 @@ export default class AssetsDetails {
   renderHomePageSearchResults(assets) {
     renderFromTemplate(assets, generateHomePageTemplate, this.parentElem);
   }
+  
+  async renderDetailsPageAssets(pageNumber) {
+    const assets = await retrieve.get100AssetsByPage(pageNumber);
+    renderFromTemplate(assets, generateHomePageTemplate, this.parentElem);
+  }
 }
