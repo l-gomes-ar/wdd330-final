@@ -194,20 +194,6 @@ main {
 }
 
 footer {
-  & .quick-icons {
-    border-top: 1px solid var(--white);
-    padding: 0.5rem;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-bottom: 1rem;
-
-    & img {
-      height: 64px;
-      width: auto;
-    }
-  }
-
   & .footer {
     background-color: var(--black);
     & p {
