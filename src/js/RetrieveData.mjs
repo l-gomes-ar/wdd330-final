@@ -3,8 +3,11 @@ const baseUrl = import.meta.env.VITE_SERVER_URL;
 async function getData(url) {
   try {
     const response = await fetch(url);
-    const data = await response.json();
-    return data.data;
+    if (response.ok) {
+      const data = await response.json();
+      return data.data;
+    }
+    throw response.status;
   } catch (err) {
     throw { name: "error", message: err };
   }
@@ -44,6 +47,12 @@ export default class RetrieveData {
 
   async getAssetById(id) {
     const url = baseUrl + `assets/${id}`;
+    const data = await getData(url);
+    return data;
+  }
+
+  async getAssetsByIds(listIds) {
+    const url = baseUrl + `assets/?ids=${listIds}`;
     const data = await getData(url);
     return data;
   }

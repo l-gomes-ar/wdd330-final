@@ -109,6 +109,35 @@
         font-size: 18pt;
       }
     }
+
+    #details-container {
+      & .asset-info {
+        & .name {
+          & p {
+            font-size: 28pt;
+            & em {
+              font-size: 20pt;
+            }
+          }
+
+          & img {
+            width: 70px;
+            height: 70px;
+          }
+        }
+    
+        & .price {
+          font-size: 22pt;
+          font-weight: 700;
+          & span {
+            font-size: 14pt;
+          }
+        }
+        & p {
+          font-size: 14pt;
+        }
+      }
+    }
   }
 
   footer {

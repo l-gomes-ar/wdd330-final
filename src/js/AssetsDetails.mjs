@@ -1,5 +1,5 @@
 import RetrieveData from "./RetrieveData.mjs";
-import { generateCurrenciesContainerTemplate, renderFromTemplate } from "./utils.mjs";
+import { generateCurrenciesContainerTemplate, renderFromTemplate, getLocalStorage } from "./utils.mjs";
 const retrieve = new RetrieveData();
 
 export default class AssetsDetails {
@@ -21,6 +21,13 @@ export default class AssetsDetails {
       .querySelector("h2")
       .textContent = `Cryptocurrencies (Page ${pageNumber} of 23)`
     const assets = await retrieve.get100AssetsByPage(pageNumber);
+    renderFromTemplate(assets, generateCurrenciesContainerTemplate, this.parentElem);
+  }
+
+  async renderWatchlist() {
+    let listIds = getLocalStorage("watchlist");
+    listIds = listIds.join(",");
+    const assets = await retrieve.getAssetsByIds(listIds);
     renderFromTemplate(assets, generateCurrenciesContainerTemplate, this.parentElem);
   }
 }

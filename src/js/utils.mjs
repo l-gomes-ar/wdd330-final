@@ -29,14 +29,14 @@ export async function loadAndGetSearchBar() {
 }
 
 export function generateCurrenciesContainerTemplate(asset) {
-  let html = `<div class="home-currency">
-                <i class="cf cf-${asset.symbol.toLowerCase()}"></i>
-                <div>
-                    <h3>${asset.name}<sup>${asset.symbol}</sup></h3>
-                    <p>$${parseFloat(asset.priceUsd).toLocaleString("en-US", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2
-                    })}`;
+  let html = `<div class="home-currency">`;
+  html += `<i class="cf cf-${asset.symbol.toLowerCase()}"></i>`;  
+  html += `<div>
+              <h3>${asset.name}<sup>${asset.symbol}</sup></h3>
+              <p>$${parseFloat(asset.priceUsd).toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+              })}`;
   if (asset.changePercent24Hr) {
     html +=  `<span`;
     if (asset.changePercent24Hr[0] === "-") html += ` class="negative-change" `;
@@ -45,7 +45,7 @@ export function generateCurrenciesContainerTemplate(asset) {
   }
   html += `</p>
         </div>
-        <a class="view-details-btn" href="#">View</a>
+        <a class="view-details-btn" href="/asset/?a=${asset.id}">View</a>
       </div>`;
 
   return html;
@@ -62,4 +62,12 @@ export function getParams(params) {
   const productId = urlParams.get(params);
   
   return productId;
+}
+
+export function setLocalStorage(key, data) {
+  localStorage.setItem(key, JSON.stringify(data));
+}
+
+export function getLocalStorage(key) {
+  return JSON.parse(localStorage.getItem(key));
 }

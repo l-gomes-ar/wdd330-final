@@ -10,7 +10,8 @@ export default defineConfig({
       input: {
         home: resolve(__dirname, "src/index.html"),
         cryptocurrencies: resolve(__dirname, "src/cryptocurrencies/index.html"),
-        watchlist: resolve(__dirname, "src/watchlist/index.html")
+        watchlist: resolve(__dirname, "src/watchlist/index.html"),
+        asset: resolve(__dirname, "src/asset/index.html")
       }
     }
   }
