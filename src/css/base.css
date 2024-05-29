@@ -145,6 +145,9 @@ main {
       }
       & ul {
         padding: 1rem 2rem;
+        & li {
+          margin-bottom: .5rem;
+        }
       }
     }  
   }
