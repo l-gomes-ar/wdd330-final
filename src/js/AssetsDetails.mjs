@@ -26,8 +26,12 @@ export default class AssetsDetails {
 
   async renderWatchlist() {
     let listIds = getLocalStorage("watchlist");
-    listIds = listIds.join(",");
-    const assets = await retrieve.getAssetsByIds(listIds);
-    renderFromTemplate(assets, generateCurrenciesContainerTemplate, this.parentElem);
+    if (listIds.length > 0) {
+      listIds = listIds.join(",");
+      const assets = await retrieve.getAssetsByIds(listIds);
+      renderFromTemplate(assets, generateCurrenciesContainerTemplate, this.parentElem);
+    } else {
+      document.querySelector("h2").textContent = "Empty Watchlist"
+    }
   }
 }
