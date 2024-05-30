@@ -22,8 +22,12 @@ function renderAssetInfoTemplate(asset) {
     const maxSupplyString = (asset.maxSupply) ? `${parseFloat(asset.maxSupply).toLocaleString("en-US")} ${asset.symbol}` : `--.-- ${asset.symbol}`;
 
     let watchlistBtnHtml;
-    if (getLocalStorage("watchlist").includes(asset.id)) {
-        watchlistBtnHtml = `<span class="removeFromWatchlistBtn"> <img src="/images/star-icon.png" alt="Black Star, Watchlist Icon"> Remove from watchlist</span>`
+    if (getLocalStorage("watchlist")) {
+        if (getLocalStorage("watchlist").includes(asset.id)) {
+            watchlistBtnHtml = `<span class="removeFromWatchlistBtn"> <img src="/images/star-icon.png" alt="Black Star, Watchlist Icon"> Remove from watchlist</span>`
+        } else {
+            watchlistBtnHtml = `<span class="addToWatchlistBtn"> <img src="/images/star-icon.png" alt="Black Star, Watchlist Icon"> Add to watchlist</span>`
+        }
     } else {
         watchlistBtnHtml = `<span class="addToWatchlistBtn"> <img src="/images/star-icon.png" alt="Black Star, Watchlist Icon"> Add to watchlist</span>`
     }
