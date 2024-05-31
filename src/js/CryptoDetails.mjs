@@ -1,6 +1,6 @@
 import RetrieveData from "./RetrieveData.mjs";
 import { getLocalStorage, setLocalStorage } from "./utils.mjs";
-import Chart, { Title } from "chart.js/auto"
+import Chart from "chart.js/auto"
 
 function renderAssetInfoTemplate(asset) {
     const nameString = `${asset.name} (${asset.symbol}) <em>#${asset.rank}</em>`;
@@ -34,22 +34,74 @@ function renderAssetInfoTemplate(asset) {
     }
 
     let html = 
-    `<div class="asset-info">
-        <div class="name">
+    `<div class="name">
             <p><b>${nameString}</b></p>
             <img src="https://assets.coincap.io/assets/icons/${asset.symbol.toLowerCase()}@2x.png" alt=" ${asset.name} icon">
-        </div>
-        <p class="price">${priceString} ${change24HrHtml}</p>
-        <p><b>Market Cap: </b>${marketCapString}</p>
-        <p><b>Volume (24h): </b>${volume24HrString}</p>
-        <p><b>Total Supply: </b>${supplyString}</p>
-        <p><b>Max Supply: </b>${maxSupplyString}</p>
-        ${watchlistBtnHtml}
-    </div>`;
+    </div>
+    <p class="price">${priceString} ${change24HrHtml}</p>
+    <p><b>Market Cap: </b>${marketCapString}</p>
+    <p><b>Volume (24h): </b>${volume24HrString}</p>
+    <p><b>Total Supply: </b>${supplyString}</p>
+    <p><b>Max Supply: </b>${maxSupplyString}</p>
+    ${watchlistBtnHtml}`;
 
     return html;
 }
 
+function getChartXYValues(data, history) {
+    const yValues = data.map((point) => parseFloat(point.priceUsd));
+    const xValues = data.map((point) =>  {
+        if (history === "1Y") {
+            return new Date(point.time)
+                .toLocaleDateString("en-US", {
+                    month: "short",
+                    year: "numeric"
+                });
+        } else if (["1M", "1W"].includes(history)) {
+            return new Date(point.time)
+                .toLocaleDateString("en-US", {
+                    day: "2-digit",
+                    month: "short"
+                });
+        } else {
+            return new Date(point.time).getHours() + "h";
+        }
+
+    });
+
+    return { xValues, yValues };
+}
+
+function getChartColors(yValues) {
+    if (yValues[0] < yValues[yValues.length - 1]) {
+        return {
+            backgroundColor: "rgba(0, 255, 0, .3)",
+            borderColor: "rgba(0, 255, 0)"
+        }
+    } else {
+        return {
+            backgroundColor: "rgba(255, 0, 0, .3)",
+            borderColor: "rgba(255, 0, 0)"
+        }
+    }
+}
+
+function updateHistorySummary(yValues) {
+    const max = Math.max.apply(Math, yValues).toLocaleString("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+    const min = Math.min.apply(Math, yValues).toLocaleString("en-US", { maximumFractionDigits: 2,  minimumFractionDigits: 2 });
+    const sum = yValues.reduce((sum, value) => sum + value, 0);
+    const average = parseFloat(sum / yValues.length).toLocaleString("en-US", { maximumFractionDigits: 2,  minimumFractionDigits: 2 });
+    const change = (100 * yValues[yValues.length - 1] / yValues[0]) - 100;
+
+    const summaryElem = document.querySelector(".history-summary");
+    summaryElem.innerHTML = 
+    `
+    <p>HIGH <span>$${max}</span></p>
+    <p>LOW <span>$${min}</span></p>
+    <p>AVERAGE <span>$${average}</span></p>
+    <p>CHANGE <span>${change.toFixed(2)}%</span></p>
+    `;
+}
 
 export default class CryptoDetails {
     constructor(assetId) {
@@ -64,6 +116,8 @@ export default class CryptoDetails {
             headingElem
                 .textContent = "Asset Details: " + this.asset.symbol;
             this.renderAssetInfo();
+            this.renderChart();
+            this.listenToChartBtns();
         } catch (err) {
             if (err.message === 404) {
                 headingElem
@@ -88,7 +142,6 @@ export default class CryptoDetails {
     }
 
     removeFromWatchlistHandler() {
-        
         let watchlist = getLocalStorage("watchlist").filter((asset) => asset !== this.asset.id);
         setLocalStorage("watchlist", watchlist);
         this.renderAssetInfo();
@@ -108,65 +161,37 @@ export default class CryptoDetails {
 
     renderAssetInfo() {
         const html = renderAssetInfoTemplate(this.asset);
-        document.querySelector("#details-container").innerHTML = html;
+        document.querySelector(".asset-info").innerHTML = html;
         this.listenToWatchlistBtns();
-        this.renderChart();
     }
 
-    async renderChart() {
-        const data = await new RetrieveData().getHistoryByAsset(this.asset);
+    listenToChartBtns() {
+        console.log()
+        document
+            .querySelectorAll(".change-chart")
+            .forEach(btn => {
+                btn.addEventListener("click", (ev) => {
+                    // Remove all "selected"
+                    document.querySelectorAll(".change-chart").forEach(btn => btn.classList.remove("selected"));
+                    btn.classList.add("selected");
+                    const history = ev.target.dataset.history;
+                    document.querySelector("canvas").remove();
+                    this.renderChart(history);    
+                })
+            });
+    }
+
+    async renderChart(history="1D") {
+        const data = await new RetrieveData().getHistoryByAsset(this.asset, history);
   
-        const yValues = data.map((point) => parseFloat(point.priceUsd));
-        const xValues = data.map((point) =>  {
-            return new Date(point.time)
-                .toLocaleDateString("en-US", {
-                    month: "short",
-                    year: "numeric"
-                });
-        });
-
-        const max = Math.max.apply(Math, yValues).toLocaleString("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
-        const min = Math.min.apply(Math, yValues).toLocaleString("en-US", { maximumFractionDigits: 2,  minimumFractionDigits: 2 });
-        const sum = yValues.reduce((sum, value) => sum + value, 0);
-        const average = parseFloat(sum / yValues.length).toLocaleString("en-US");
-        const change = (100 * yValues[yValues.length - 1] / yValues[0]) - 100;
-
-        let backgroundColor;
-        let borderColor;
-
-        if (yValues[0] < yValues[yValues.length - 1]) {
-            backgroundColor = "rgba(0, 255, 0, .3)";
-            borderColor = "rgba(0, 255, 0)";
-        } else {
-            backgroundColor = "rgba(255, 0, 0, .3)";
-            borderColor = "rgba(255, 0, 0)";
-        }
-
-        const canvasContainer = document.createElement("div");
-        canvasContainer.setAttribute("class", "graph-container");
-
-        const h3Elem = document.createElement("h3");
-        h3Elem.textContent = `History (1y)`;
-
-        const summaryElem = document.createElement("div");
-        summaryElem.setAttribute("class", "history-summary");
-        summaryElem.innerHTML = 
-        `
-        <p>HIGH <span>$${max}</span></p>
-        <p>LOW <span>$${min}</span></p>
-        <p>AVERAGE <span>$${average}</span></p>
-        <p>CHANGE <span>${change.toFixed(2)}%</span></p>
-        `;
-
-        canvasContainer.append(h3Elem);
-        canvasContainer.append(summaryElem);
+        const { xValues, yValues } = getChartXYValues(data, history);
+        const { backgroundColor, borderColor } = getChartColors(yValues);
+        updateHistorySummary(yValues);
 
         const canvasElem = document.createElement("canvas");
         canvasElem.id = "asset-info";
 
-        canvasContainer.append(canvasElem);
-
-        document.querySelector("#details-container").appendChild(canvasContainer);
+        document.querySelector(".chart").append(canvasElem);
 
         new Chart("asset-info", {
             type: "line",
@@ -183,6 +208,7 @@ export default class CryptoDetails {
                 }]
             },
             options: {
+                maintainAspectRatio: false,
                 scales: {
                     y: {
                         ticks: {

@@ -25,7 +25,20 @@
     <nav></nav>
     <main>
         <h2></h2>
-        <section id="details-container"></section>
+        <section id="details-container">
+            <div class="asset-info"></div>
+            <div class="graph-container">
+                <h3>History</h3>
+                <div class="history-summary"></div>
+                <div class="chart"></div>
+                <div class="btn-container">
+                    <button class="change-chart selected" data-history="1D">1D</button>
+                    <button class="change-chart" data-history="1W">1W</button>
+                    <button class="change-chart" data-history="1M">1M</button>
+                    <button class="change-chart" data-history="1Y">1Y</button>
+                </div>
+            </div>
+        </section>
     </main>
     <footer></footer>
     <script type="module" src="/js/asset.mjs"></script>

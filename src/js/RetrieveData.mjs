@@ -57,8 +57,30 @@ export default class RetrieveData {
     return data;
   }
 
-  async getHistoryByAsset(asset) {
-    const url = baseUrl + `assets/${asset.id}/history?interval=d1`;
+  async getHistoryByAsset(asset, history) {
+    let start;
+    let end;
+    let interval;
+
+    if (history === "1Y") { // Change this for the actual required time later
+      start = new Date().getTime() - 3.156e+10; // Current date minus one year in miliseconds
+      end = new Date().getTime();
+      interval = "d1";
+    } else if (history === "1W") {
+      start = new Date().getTime() - 6.048e+8; // Current date minus one week in miliseconds
+      end = new Date().getTime();
+      interval = "d1";
+    } else if (history === "1M") {
+      start = new Date().getTime() - 2.628e+9; // Current date minus one month in miliseconds
+      end = new Date().getTime();
+      interval = "d1";
+    } else if (history === "1D") {
+      start = new Date().getTime() - 8.64e+7; // Current date minus one day in miliseconds 8.64e+7
+      end = new Date().getTime();
+      interval = "m1";
+    }
+
+    const url = baseUrl + `assets/${asset.id}/history?interval=${interval}&start=${start}&end=${end}`;
     const data = await getData(url);
     return data;
   }
