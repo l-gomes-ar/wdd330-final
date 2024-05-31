@@ -43,6 +43,17 @@ function renderAssetInfoTemplate(asset) {
     <p><b>Volume (24h): </b>${volume24HrString}</p>
     <p><b>Total Supply: </b>${supplyString}</p>
     <p><b>Max Supply: </b>${maxSupplyString}</p>
+    <div class="converter">
+        <h4>${asset.symbol} Converter</h4>
+        <div>
+            <input id="crypto" type="number" value="1" step="0.01">
+            <span>${asset.symbol}</span>
+        </div>
+        <div>
+            <input id="usd" type="number" value="${asset.priceUsd}" step="0.01">
+            <span>USD</span>
+        </div>
+    </div>
     ${watchlistBtnHtml}`;
 
     return html;
@@ -100,7 +111,6 @@ function updateHistorySummary(yValues) {
         max = min = sum = average = change = "--";
     }
 
-    console.log(yValues)
     const summaryElem = document.querySelector(".history-summary");
     summaryElem.innerHTML = 
     `
@@ -132,7 +142,7 @@ export default class CryptoDetails {
                     .textContent = "Could not find asset: " + this.assetId;
             } else {
                 headingElem
-                    .textContent = "Error loading asset details." + err;
+                    .textContent = "Error loading asset details.";
             }
         }
     }
@@ -170,6 +180,7 @@ export default class CryptoDetails {
     renderAssetInfo() {
         const html = renderAssetInfoTemplate(this.asset);
         document.querySelector(".asset-info").innerHTML = html;
+        this.listenToConvert();
         this.listenToWatchlistBtns();
     }
 
@@ -187,6 +198,23 @@ export default class CryptoDetails {
                     this.renderChart(history);    
                 })
             });
+    }
+
+    listenToConvert() {
+        const cryptoInput = document.querySelector("#crypto");
+        const usdInput = document.querySelector("#usd");
+        
+        const convertCrypto = (ev) => {
+            usdInput.value = (ev.target.value * parseFloat(this.asset.priceUsd));
+        }
+        const convertUsd = (ev) => {
+            cryptoInput.value = (ev.target.value / parseFloat(this.asset.priceUsd));
+        }
+
+        cryptoInput.addEventListener("change", convertCrypto);
+        cryptoInput.addEventListener("keyup", convertCrypto);
+        usdInput.addEventListener("change", convertUsd);
+        usdInput.addEventListener("keyup", convertUsd);
     }
 
     async renderChart(history="1D") {

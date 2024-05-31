@@ -304,6 +304,49 @@ main {
         height: 30px;
       }
     }
+
+    & .converter {
+      margin: 1rem 0;
+      & h4 {
+        font-size: 18pt;
+      }
+
+      & div {
+        position: relative;
+
+        & input {
+          width: 100%;
+          line-height: 2rem;
+          font-size: 1rem;
+          font-weight: 700;
+          margin: 0;
+          padding-left: .5rem;
+          border: 1px solid var(--primary-color);
+        }
+
+        & input:focus {
+          outline: 0;
+          background-color: lightcyan;
+        }
+
+        & #crypto {
+          border-radius: 10px 10px 0 0;
+          border-bottom: 0;
+        }
+
+        & #usd {
+          border-radius: 0 0 10px 10px;
+        }
+
+        & span {
+          position: absolute;
+          right: 1.5rem;
+          top: .4rem;
+          font-weight: 700;
+        }
+      }
+    }
+
   }
 
   & .graph-container {
