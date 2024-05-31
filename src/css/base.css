@@ -363,10 +363,11 @@ main {
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
       margin: 1rem 0;
+      text-align: center;
 
       & p {
         font-size: 12pt;
-        font-weight: 700;
+        font-weight: 600;
         color: grey;
          & span {
           font-weight: 600;
