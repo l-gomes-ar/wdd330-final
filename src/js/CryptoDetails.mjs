@@ -17,10 +17,10 @@ function renderAssetInfoTemplate(asset) {
         change24HrHtml = "";
     }
 
-    const marketCapString = (asset.marketCapUsd) ? `$${parseFloat(asset.marketCapUsd).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : "$--.--";
-    const volume24HrString = (asset.vwap24Hr) ? `$${parseFloat(asset.vwap24Hr).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : "$--.--";
-    const supplyString = (asset.supply) ? `${parseFloat(asset.supply).toLocaleString("en-US")} ${asset.symbol}` : `--.-- ${asset.symbol}`;
-    const maxSupplyString = (asset.maxSupply) ? `${parseFloat(asset.maxSupply).toLocaleString("en-US")} ${asset.symbol}` : `--.-- ${asset.symbol}`;
+    const marketCapString = (asset.marketCapUsd) ? `$${parseFloat(asset.marketCapUsd).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : "$--";
+    const volume24HrString = (asset.vwap24Hr) ? `$${parseFloat(asset.vwap24Hr).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : "$--";
+    const supplyString = (asset.supply) ? `${parseFloat(asset.supply).toLocaleString("en-US")} ${asset.symbol}` : `-- ${asset.symbol}`;
+    const maxSupplyString = (asset.maxSupply) ? `${parseFloat(asset.maxSupply).toLocaleString("en-US")} ${asset.symbol}` : `-- ${asset.symbol}`;
 
     let watchlistBtnHtml;
     if (getLocalStorage("watchlist")) {
@@ -87,19 +87,27 @@ function getChartColors(yValues) {
 }
 
 function updateHistorySummary(yValues) {
-    const max = Math.max.apply(Math, yValues).toLocaleString("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
-    const min = Math.min.apply(Math, yValues).toLocaleString("en-US", { maximumFractionDigits: 2,  minimumFractionDigits: 2 });
-    const sum = yValues.reduce((sum, value) => sum + value, 0);
-    const average = parseFloat(sum / yValues.length).toLocaleString("en-US", { maximumFractionDigits: 2,  minimumFractionDigits: 2 });
-    const change = (100 * yValues[yValues.length - 1] / yValues[0]) - 100;
 
+    let max, min, sum, average, change;
+
+    if (yValues.length > 0) {
+        max = Math.max.apply(Math, yValues).toLocaleString("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+        min = Math.min.apply(Math, yValues).toLocaleString("en-US", { maximumFractionDigits: 2,  minimumFractionDigits: 2 });
+        sum = yValues.reduce((sum, value) => sum + value, 0);
+        average = parseFloat(sum / yValues.length).toLocaleString("en-US", { maximumFractionDigits: 2,  minimumFractionDigits: 2 });
+        change = ((100 * yValues[yValues.length - 1] / yValues[0]) - 100).toFixed(2);
+    } else {
+        max = min = sum = average = change = "--";
+    }
+
+    console.log(yValues)
     const summaryElem = document.querySelector(".history-summary");
     summaryElem.innerHTML = 
     `
     <p>HIGH <span>$${max}</span></p>
     <p>LOW <span>$${min}</span></p>
     <p>AVERAGE <span>$${average}</span></p>
-    <p>CHANGE <span>${change.toFixed(2)}%</span></p>
+    <p>CHANGE <span>${change}%</span></p>
     `;
 }
 
