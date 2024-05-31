@@ -305,6 +305,32 @@ main {
       }
     }
   }
+
+  & .graph-container {
+    padding: 1rem;
+    background-color: var(--white);
+    margin-top: 1rem;
+
+    & h3 {
+      font-size: 20pt;
+    }
+
+    & .history-summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1rem 0;
+
+      & p {
+        font-size: 12pt;
+        font-weight: 700;
+        color: grey;
+         & span {
+          font-weight: 600;
+         }
+      }
+    }
+  }
 }
 
 footer {

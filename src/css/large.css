@@ -111,12 +111,16 @@
     }
 
     #details-container {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: .8rem;
+
       & .asset-info {
         & .name {
           & p {
-            font-size: 28pt;
+            font-size: 22pt;
             & em {
-              font-size: 20pt;
+              font-size: 18pt;
             }
           }
 
@@ -127,7 +131,7 @@
         }
     
         & .price {
-          font-size: 22pt;
+          font-size: 20pt;
           font-weight: 700;
           & span {
             font-size: 14pt;
@@ -135,6 +139,20 @@
         }
         & p {
           font-size: 14pt;
+        }
+      }
+
+      & .graph-container {
+        margin-top: 0;
+    
+        & h3 {
+          font-size: 22pt;
+        }
+
+        & .history-summary {    
+          & p {
+            font-size: 16pt;
+          }
         }
       }
     }

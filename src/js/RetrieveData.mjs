@@ -56,4 +56,10 @@ export default class RetrieveData {
     const data = await getData(url);
     return data;
   }
+
+  async getHistoryByAsset(asset) {
+    const url = baseUrl + `assets/${asset.id}/history?interval=d1`;
+    const data = await getData(url);
+    return data;
+  }
 }
