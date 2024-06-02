@@ -244,6 +244,11 @@ export default class CryptoDetails {
                 }]
             },
             options: {
+                plugins: {
+                    tooltip: {
+                        intersect: false
+                    }
+                },
                 maintainAspectRatio: false,
                 scales: {
                     y: {
