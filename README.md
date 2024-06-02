@@ -12,7 +12,6 @@ This project aims to create a website that provides a clear and concise overview
 * Cryptocurrency Detail Pages
   * Provide detailed information about each cryptocurrency, including price history, market cap, trading volume, and other relevant statistics.
 * Search Functionality
-  * Allow users to search for specific cryptocurrencies.
-  * Implement auto-suggestions for efficient searching.
+  * Allow users to search for specific cryptocurrencies by crypto symbol or name.
 * Favorites/Watchlist
   * Enable users to add cryptocurrencies to a watchlist for quick access and monitoring.
