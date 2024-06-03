@@ -28,6 +28,10 @@ header {
     & span {
       display: none;
     }
+
+    & a {
+      text-decoration: none;
+    }
   }
 
   & #hamburgerMenu {
