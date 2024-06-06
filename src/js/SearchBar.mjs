@@ -1,4 +1,4 @@
-import { loadTemplate, getParams } from "./utils.mjs";
+import { loadTemplate } from "./utils.mjs";
 import AssetsDetails from "./AssetsDetails.mjs";
 import RetrieveData from "./RetrieveData.mjs";
 import CryptoList from "./CryptoList.mjs";

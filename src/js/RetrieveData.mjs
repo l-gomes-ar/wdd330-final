@@ -62,7 +62,7 @@ export default class RetrieveData {
     let end;
     let interval;
 
-    if (history === "1Y") { // Change this for the actual required time later
+    if (history === "1Y") {
       start = new Date().getTime() - 3.156e+10; // Current date minus one year in miliseconds
       end = new Date().getTime();
       interval = "d1";
